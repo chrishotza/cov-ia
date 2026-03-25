@@ -1,0 +1,7 @@
+{
+  "mode": "perceptual_lock",
+  "target_fps": 30,
+  "frame_budget_ms": 33.3,
+  "learning": true,
+  "safe_mode": true
+}

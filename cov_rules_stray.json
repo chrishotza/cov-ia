@@ -1,0 +1,22 @@
+{
+  "hard_collapse": [
+    "motion_blur",
+    "film_grain",
+    "chromatic_aberration",
+    "secondary_bloom",
+    "light_shafts_secondary"
+  ],
+  "conditional": {
+    "ssao": "budget",
+    "ssr": "budget",
+    "volumetric_fog": "budget",
+    "dynamic_shadows_secondary": "budget"
+  },
+  "protected": [
+    "player_shadow",
+    "primary_lighting",
+    "geometry",
+    "animations",
+    "ui"
+  ]
+}
