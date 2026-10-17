@@ -44,3 +44,15 @@ Find a way for ordinary, anonymous visitors to play a **real keyboard-controlled
 - GitHub community GeoJSON visualization bug: https://github.com/orgs/community/discussions/58244
 
 **No user-facing profile modification is authorized by these tests.**
+
+## SVG-as-image test (added after the initial sanitizer matrix)
+Source asset: `assets/svg-image-mode-probe.svg`. It contains SMIL time animation, CSS `:hover`, SMIL `begin="click"`, and a `foreignObject` checkbox. GitHub embeds it through Markdown `![](./assets/svg-image-mode-probe.svg)` as an `img`.
+
+Live browser results:
+- External SVG visually rendered: **yes**.
+- Timeline animation (SMIL changing circle `cx`): **yes**, movement observed across snapshots.
+- Hover of an internal square: **no change observed**.
+- Click on the internal circle with `begin="click"`: **no change observed**.
+- Checkbox inside `foreignObject`: **no actionable input verified**. The QA agent speculated that the checkbox changed via timeline, but our SVG only animates `cx` of the first circle, so that speculation is **not supported by the source**. Treat the checkbox result as inconclusive, not an interaction success.
+
+**Conclusion:** SVG-as-image is an effective declarative animation channel, but did not provide a demonstrated pointer/keyboard event channel for a game loop. Do not confuse automatic animation with visitor-controlled game state.
