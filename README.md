@@ -1,34 +1,29 @@
-\# COV-IA: Cognitive Optimization for AI Inference
+<!-- NATIVE README GAME. 36 INDEPENDENT DETAILS, NO SCRIPTS. EXPERIMENTAL ONLY. -->
+![CORE BREACH / animated title](./assets/core-breach-header.svg)
 
+### DEFUSE THE GRID
 
+**07 minas · 29 casillas seguras · 00 instalaciones · 00 redirecciones**
 
-\## 📊 Resultados
+Una cuadrícula real con minas y números calculados a partir de una distribución fija. **Hacé clic sobre cada nodo para descubrirlo.** El número indica cuántas minas hay en las ocho casillas vecinas. Evitá todas las minas y abrí los 29 nodos seguros para superar el desafío.
 
+| 01 | 02 | 03 | 04 | 05 | 06 |
+| :--: | :--: | :--: | :--: | :--: | :--: |
+| <details><summary><img alt="Abrir nodo 1-1" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>✓</strong></details> | <details><summary><img alt="Abrir nodo 1-2" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 1-3" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>💥 MINA</strong></details> | <details><summary><img alt="Abrir nodo 1-4" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>3</strong></details> | <details><summary><img alt="Abrir nodo 1-5" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> | <details><summary><img alt="Abrir nodo 1-6" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> |
+| <details><summary><img alt="Abrir nodo 2-1" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>✓</strong></details> | <details><summary><img alt="Abrir nodo 2-2" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 2-3" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>💥 MINA</strong></details> | <details><summary><img alt="Abrir nodo 2-4" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>3</strong></details> | <details><summary><img alt="Abrir nodo 2-5" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>💥 MINA</strong></details> | <details><summary><img alt="Abrir nodo 2-6" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> |
+| <details><summary><img alt="Abrir nodo 3-1" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> | <details><summary><img alt="Abrir nodo 3-2" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 3-3" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 3-4" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 3-5" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> | <details><summary><img alt="Abrir nodo 3-6" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> |
+| <details><summary><img alt="Abrir nodo 4-1" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> | <details><summary><img alt="Abrir nodo 4-2" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>💥 MINA</strong></details> | <details><summary><img alt="Abrir nodo 4-3" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 4-4" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> | <details><summary><img alt="Abrir nodo 4-5" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> | <details><summary><img alt="Abrir nodo 4-6" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>✓</strong></details> |
+| <details><summary><img alt="Abrir nodo 5-1" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 5-2" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 5-3" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>3</strong></details> | <details><summary><img alt="Abrir nodo 5-4" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>💥 MINA</strong></details> | <details><summary><img alt="Abrir nodo 5-5" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 5-6" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> |
+| <details><summary><img alt="Abrir nodo 6-1" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> | <details><summary><img alt="Abrir nodo 6-2" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>💥 MINA</strong></details> | <details><summary><img alt="Abrir nodo 6-3" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 6-4" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>2</strong></details> | <details><summary><img alt="Abrir nodo 6-5" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>💥 MINA</strong></details> | <details><summary><img alt="Abrir nodo 6-6" src="./assets/core-breach-tile.svg" width="33"/></summary><strong>1</strong></details> |
 
+<details><summary>◈ AYUDA / REGLAS</summary>
 
-| Modo | Latencia | Mejora | Accuracy | Costo | Ahorro |
+- **1–8**: cantidad de minas adyacentes, incluyendo diagonales.
+- **✓**: casilla libre de minas vecinas.
+- **💥 MINA**: pisaste una mina. La partida termina según las reglas; el HTML no puede desactivar otros clics.
+- **Reiniciar:** F5. No se registran estadísticas ni se compara automáticamente el número de casillas seguras.
+- **Limitación del prototipo:** sin banderas, autodespeje, cronómetro, victoria automática ni bloqueo tras derrota. Es un **minijuego de revelación y deducción**, no un motor de física.
 
-|------|----------|--------|----------|-------|--------|
+</details>
 
-| \*\*PRECISION\*\* | 33ms | \*\*-56%\*\* | \*\*0.968\*\* | 3.4 | \*\*-57%\*\* |
-
-| BALANCED | 32ms | -57% | 0.958 | 3.4 | -58% |
-
-| PERFORMANCE | 32ms | -57% | 0.941 | 3.4 | -58% |
-
-| ULTRA | 19ms | -74% | 0.936 | 1.8 | -78% |
-
-
-
-\*\*Conclusión\*\*: COV-IA reduce latencia hasta 74% y costo hasta 78% con pérdida mínima de accuracy.
-
-
-
-\## 🔬 Principio Activo
-
-
-
-Basado en \*\*TCF v3.1\*\* (Mendoza, 2025), COV implementa el flujo RG:
-
-
-
+<sub>GitHub native / GFM table + HTML details + SVG graphics. El navegador no ejecuta código del autor. Esta rama es experimental y no es el README de `chrishotza`.</sub>
