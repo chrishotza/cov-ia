@@ -1,6 +1,6 @@
 """
 COV-IA: Cognitive Optimization for AI Inference
-Versión con modos correctamente diferenciados + integración Ollama
+Simulador de perfiles sintéticos; no mide hardware real ni ejecuta Ollama
 """
 
 import numpy as np
@@ -442,38 +442,29 @@ def main():
         models_str = ", ".join([f"{m}:{c/total*100:.0f}%" for m, c in r['models'].items()])
         print(f"             └─ {models_str}")
     
-    # Recomendación final
+    # Informe de los resultados por modo, SIN usar los resultados de un modo
+    # para etiquetar otro. Las métricas proceden de perfiles sintéticos.
     print("\n" + "="*70)
-    print("💡 RECOMENDACIÓN PARA EL HACKATHON")
+    print("📋 INFORME POR MODO (SIMULACIÓN; NO ES VALIDACIÓN REAL)")
     print("="*70)
-    
-    # Encontrar el mejor modo para cada caso
-    best_balanced = min(results, key=lambda x: abs(x['avg_accuracy'] - 0.96))
-    best_perf = min(results, key=lambda x: x['avg_latency'])
-    best_precision = max(results, key=lambda x: x['avg_accuracy'])
-    
-    print(f"""
-   📌 MODO PRECISION (Recomendado para alta precisión):
-      - Latencia: {best_precision['avg_latency']:.0f}ms
-      - Accuracy: {best_precision['avg_accuracy']:.4f}
-      - Uso: Diagnóstico médico, finanzas, legal
-    
-   📌 MODO BALANCED (Recomendado por defecto):
-      - Latencia: {best_balanced['avg_latency']:.0f}ms  
-      - Accuracy: {best_balanced['avg_accuracy']:.4f}
-      - Uso: Producción general, chatbots, asistentes
-    
-   📌 MODO PERFORMANCE (Recomendado para tiempo real):
-      - Latencia: {best_perf['avg_latency']:.0f}ms
-      - Accuracy: {best_perf['avg_accuracy']:.4f}
-      - Uso: Juegos, streaming, tiempo real
-    
-   📌 MODO ULTRA (Recomendado para edge):
-      - Latencia: {best_perf['avg_latency']:.0f}ms
-      - Accuracy: {best_perf['avg_accuracy']:.4f}
-      - Uso: Edge devices, batch, IoT
-    """)
-    
+
+    results_by_mode = {item["mode"]: item for item in results}
+    mode_descriptions = [
+        (COVMode.PRECISION, "calidad sintética prioritaria"),
+        (COVMode.BALANCED, "equilibrio experimental entre calidad y costo"),
+        (COVMode.PERFORMANCE, "latencia sintética prioritaria"),
+        (COVMode.ULTRA, "exploración de políticas de bajo costo"),
+    ]
+    for mode, objective in mode_descriptions:
+        result = results_by_mode[mode.value]
+        print(f"   MODO {mode.value.upper()} — {objective}")
+        print(f"      Latencia simulada: {result['avg_latency']:.0f} ms")
+        print(f"      Accuracy simulada: {result['avg_accuracy']:.4f}")
+        print(f"      Costo relativo: {result['avg_cost']:.2f}")
+
+    print("\n   ⚠️ Valores simulados, no aptos para decisiones clínicas,")
+    print("      financieras ni despliegue sin validación independiente.")
+
     print("\n   🔬 Basado en TCF v3.1 (Mendoza, 2025):")
     print("      - Flujo RG triádico con separatriz analítica")
     print("      - g₉ = √(b/4)·g₆ define frontera de colapso")
