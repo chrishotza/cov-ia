@@ -86,3 +86,25 @@ For each control, report **rendered DOM versus source**, if it accepts pointer/k
 **Importante:** no queremos burlar la seguridad de GitHub ni ejecutar código no autorizado. Queremos saber qué funcionalidades oficialmente permitidas sobreviven al renderizado.
 
 This experiment branch is separate from main, and is **not** the public GitHub profile.
+
+---
+
+## E · External SVG used as an image (different from inline SVG)
+
+This SVG is authored as a **separate asset** and embedded using normal GitHub Markdown. Its internal tests: clock-based SMIL motion, CSS hover, SMIL `begin=click`, and a checkbox inside SVG `foreignObject`.
+
+A real interaction requires the corresponding painted object to change when users hover/click on the image, not merely a static frame or an animation that plays by itself.
+
+![SVG image-mode test: green moving ball, hover square, clickable circle and HTML checkbox](./assets/svg-image-mode-probe.svg)
+
+**E acceptance table (do not infer results from the source):**
+
+| Behavior | Required evidence |
+| --- | --- |
+| Timeline animation | Green circle changes x position without clicking |
+| Hover | Purple square changes fill color when pointer enters it |
+| Click | Orange circle grows *after direct click on the circle* |
+| Embedded form | Checkbox responds to input and updates label |
+| Game-state computation | Actual controlled state transition and rules (not present in probe) |
+
+SVG displayed as an image may animate but be non-interactive according to browser secure static image document mode. This is intentionally a behavioral test, not a claim that SVG can be an embedded game.
