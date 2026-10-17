@@ -468,7 +468,7 @@ def main():
     print("\n   🔬 Basado en TCF v3.1 (Mendoza, 2025):")
     print("      - Flujo RG triádico con separatriz analítica")
     print("      - g₉ = √(b/4)·g₆ define frontera de colapso")
-    print("      - COV anticipa y actúa antes del colapso")
+    print("      - El controlador adapta el modo según señales sintéticas")
     print("      - Modos configurables según caso de uso")
     
     return results
