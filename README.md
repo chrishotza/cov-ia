@@ -1,12 +1,12 @@
-# EXPERIMENTO 001 — OBJETO IMPOSIBLE
+# EXPERIMENTO 001 / OBJETO IMPOSIBLE
 
-**Creo cosas con IA.** Este es un laboratorio aislado. No modifica el README de `github.com/chrishotza` ni el `main` de este repositorio.
+**Creo cosas con IA.** Esta cosa apareció adentro de un README.
 
-## Una criatura geométrica con dos identidades
+### MISIÓN 01 / el objeto tiene dos caras
 
-**Misión:** **girás la cámara**, encontrás el símbolo **IA** en uno de los planos y después descubrís un **?** en la cara perpendicular. Probá **Wireframe**, ampliación y rotación; el objetivo es ver qué posibilidades de juego existen dentro del motor 3D *nativo* de GitHub.
+Este objeto es **tridimensional y manipulable**. Giralo con el mouse o los controles de GitHub. Acercate, probá Wireframe y buscá **dos símbolos diferentes** construidos en planos perpendiculares.
 
-**No es una imagen ni una secuencia de enlaces:** el siguiente bloque contiene 1916 triángulos 3D originales, que GitHub debería convertir en un visor directamente manipulable.
+**La cámara es tu control.** No necesitás abrir otra página.
 
 ```stl
 solid README_ANAMORPHIC_IA_QUESTION
@@ -13426,27 +13426,53 @@ endsolid README_ANAMORPHIC_IA_QUESTION
 ```
 
 <details>
-<summary><b>PISTA 01 / cómo descubrir el símbolo secreto</b></summary>
+<summary><b>◈ Pedir una pista</b></summary>
 
-La letra **IA** se distribuye sobre el plano XY delantero de la escultura; el signo **?** está en otro plano vertical, perpendicular. Rotá la cámara unos 90 grados. Son dos formas geométricas distintas, no una ilusión generada con JavaScript.
+No mires solamente el frente. Uno de los símbolos tiene dos letras y el otro es un signo de puntuación. Intentá observar la escultura de costado.
+
+</details>
+
+### ¿Qué símbolos encontraste?
+
+Seleccioná una respuesta. Cada elección cambia **inmediatamente** el contenido visible en este mismo README. Son respuestas HTML nativas, no enlaces disfrazados de juego.
+
+<details name="object-answer">
+<summary><b>◉ IA y ?</b></summary>
+
+**✦ ACERTIJO RESUELTO.** Encontraste los dos símbolos. Uno vive en la cara frontal y el otro en una superficie perpendicular.
+
+<details>
+<summary>DESBLOQUEADO / ¿Qué acaba de ocurrir?</summary>
+
+Combinaste dos mecanismos reales que GitHub ejecuta dentro de Markdown: rotación de un objeto STL y estados de respuesta mutuamente excluyentes con `details name`. La validación es declarativa: el visitante elige, el visor no detecta automáticamente si miró el ángulo correcto.
 
 </details>
 
-<details name="lab-switch">
-<summary><b>PRUEBA HTML / ventana A</b></summary>
+</details>
 
-Abrir la ventana B debería cerrar esta si GitHub conserva el atributo `name` y aplica la exclusividad nativa de `details`.
+<details name="object-answer">
+<summary><b>◉ 404 y AI</b></summary>
+
+**No.** La escultura no contiene un 404. Probá cambiar la dirección desde la que la observás.
 
 </details>
-<details name="lab-switch">
-<summary><b>PRUEBA HTML / ventana B</b></summary>
 
-Si la ventana A se cerró automáticamente, tenemos otro mecanismo inmediato de control visual sin scripts.
+<details name="object-answer">
+<summary><b>◉ IA y 7</b></summary>
+
+**Casi.** Las dos letras están bien, pero el segundo símbolo no es un número. Rotá hacia una de las caras laterales.
 
 </details>
 
 ---
 
-**Datos:** 1916 triángulos · 35 prismas · 256734 bytes STL ASCII · sin dependencias ni scripts ejecutables.
+<details>
+<summary><b>Notas técnicas y límites</b></summary>
 
-**Criterio de aceptación:** el visitante debe poder manipular la malla de forma continua **sin abandonar el README**. Rotación, zoom y estados HTML se deben comprobar sobre el renderizador real de GitHub. La existencia de un visor no implica física propia ni detección automática de victoria.
+- **1916 triángulos**, `256734` caracteres STL ASCII, sin JavaScript nuestro.
+- GitHub ejecuta los controles de rotación, zoom y wireframe.
+- Las tres opciones usan el mismo `name="object-answer"`, de modo que mostrar una respuesta oculta las otras.
+- No hay WASD, física propia ni detección automática de victoria. Es un **puzzle geométrico con interacciones reales**, no DOOM.
+- Rama experimental independiente. **El perfil `chrishotza/ChrisHotza` y el `main` de `cov-ia` no fueron modificados.**
+
+</details>
