@@ -216,3 +216,23 @@ La sintaxis Markdown `[acción](#...)` crea navegación a una sección de **esta
 6. Anclas, hotspots y checkboxes se examinan separadamente. No atribuirles capacidades que no demuestren.
 
 Este laboratorio no altera la rama principal ni el perfil GitHub.
+
+
+---
+
+## EXPERIMENTO E · HTML table compacta, una línea por tablero
+
+Esta matriz de seis casillas usa HTML válido en una sola línea, sin saltos entre `td` y `details`. Sirve para detectar si el fallo de la prueba A fue por el parser Markdown y espacios extra, no por incompatibilidad fundamental.
+
+<table><tr><td><details><summary>🔒 A1</summary>🍏 1</details></td><td><details><summary>🔒 A2</summary>🍋 2</details></td><td><details><summary>🔒 A3</summary>🧨 3</details></td></tr><tr><td><details><summary>🔒 B1</summary>🐝 4</details></td><td><details><summary>🔒 B2</summary>🌟 5</details></td><td><details><summary>🔒 B3</summary>🍎 6</details></td></tr></table>
+
+## EXPERIMENTO F · Tabla Markdown con HTML inline
+
+Esta variante usa la sintaxis oficial de tabla GFM, con controles `details` de una sola línea en cada celda. Debe conservar dos filas y tres columnas incluso cuando se abran dos casillas.
+
+| 1 | 2 | 3 |
+|:---:|:---:|:---:|
+| <details><summary>🔒 A1</summary>🍏 1</details> | <details><summary>🔒 A2</summary>🍋 2</details> | <details><summary>🔒 A3</summary>🧨 3</details> |
+| <details><summary>🔒 B1</summary>🐝 4</details> | <details><summary>🔒 B2</summary>🌟 5</details> | <details><summary>🔒 B3</summary>🍎 6</details> |
+
+**Criterio diferencial:** si E o F se ve como 2×3 (no como una lista), hay una ruta concreta para empaquetar el campo minado con tamaño constante. Si ambas fallan, descartar tablas con controles nativos en README.
