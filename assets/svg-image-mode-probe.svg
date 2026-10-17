@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="760" height="300" viewBox="0 0 760 300" role="img" aria-label="SVG image mode: timeline, hover, click and HTML form behavior test">
+  <rect width="760" height="300" rx="18" fill="#101725"/>
+  <text x="26" y="32" fill="#dee9f6" font-family="sans-serif" font-size="17" font-weight="bold">SVG IMAGE MODE · INPUT TEST</text>
+  <text x="26" y="56" fill="#a7b8d1" font-family="sans-serif" font-size="12">Animation may run; image-internal click/hover/input must be tested, never assumed.</text>
+  <g font-family="sans-serif" font-size="14" fill="#e6eaf4" text-anchor="middle">
+    <text x="100" y="100">TIME</text>
+    <text x="284" y="100">HOVER</text>
+    <text x="466" y="100">CLICK</text>
+    <text x="650" y="100">FORM</text>
+  </g>
+  <g stroke="#33485b" fill="#19283c" stroke-width="2">
+    <rect x="24" y="112" width="155" height="125" rx="12"/>
+    <rect x="205" y="112" width="155" height="125" rx="12"/>
+    <rect x="388" y="112" width="155" height="125" rx="12"/>
+    <rect x="571" y="112" width="162" height="125" rx="12"/>
+  </g>
+  <circle cx="64" cy="173" r="15" fill="#78e3c7">
+    <animate attributeName="cx" values="64;138;64" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <style>#hover-square:hover{fill:#f9ca65}#foreign-box input:checked+span{color:#65edb0;font-weight:bold}</style>
+  <rect id="hover-square" x="259" y="147" width="52" height="52" rx="8" fill="#8e93f5"/>
+  <circle id="click-ball" cx="466" cy="173" r="22" fill="#ef9786">
+    <animate attributeName="r" from="22" to="45" dur="0.5s" begin="click" fill="freeze"/>
+  </circle>
+  <foreignObject id="foreign-box" x="584" y="144" width="136" height="65">
+    <xhtml:div style="background:#172c3c;border:1px solid #5b9abc;border-radius:8px;padding:8px;color:white;font:13px sans-serif;">
+      <xhtml:label><xhtml:input type="checkbox" /><xhtml:span> CHECK ME</xhtml:span></xhtml:label>
+    </xhtml:div>
+  </foreignObject>
+  <g font-family="sans-serif" font-size="11" fill="#b4c1d5" text-anchor="middle">
+    <text x="101" y="263">SMIL clock</text>
+    <text x="284" y="263">CSS :hover</text>
+    <text x="466" y="263">SMIL begin=click</text>
+    <text x="652" y="263">foreignObject input</text>
+  </g>
+</svg>
