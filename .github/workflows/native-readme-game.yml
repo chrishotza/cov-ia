@@ -1,0 +1,25 @@
+name: Native README game regression
+on:
+  push:
+    branches:
+      - experiment/readme-core-breach-20261017
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify mines, grid, assets, layout source
+        run: node scripts/test-readme.mjs
+      - name: Verify deterministic renderer
+        run: |
+          cp README.md /tmp/expected-native-game-readme.md
+          node scripts/build-readme.mjs
+          cmp -s README.md /tmp/expected-native-game-readme.md
