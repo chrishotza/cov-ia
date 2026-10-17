@@ -26,6 +26,18 @@ python cov_ia.py
 
 The program runs a baseline and four modes and prints a comparison. It samples randomness without a fixed seed; numeric outputs can vary between runs. It does not currently contain a demonstrated end-to-end Ollama inference benchmark.
 
+## Tests and CI / Pruebas y CI
+
+The repository includes regression tests for all four synthetic modes and checks that the printed report does not **mislabel one mode's output as another mode's**. These tests do **not** validate real inference speed or accuracy.
+
+El repositorio ahora incluye pruebas de los cuatro modos simulados y una regresión que evita **atribuir métricas de un modo a otro**. Estas pruebas **no** validan latencia ni precisión de inferencia real.
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+[GitHub Actions — Synthetic policy regression tests](.github/workflows/synthetic-policy-tests.yml) runs the tests on supported Python. A successful run confirms these software-level invariants only.
+
 ## Reported sample / Ejemplo histórico
 
 An earlier README listed approximately 33 ms (Precision), 32 ms (Balanced/Performance) and 19 ms (Ultra), with relative cost reductions in the synthetic comparison. These are **illustrative outputs only**. Run the script to obtain results for your execution; do not interpret the table as hardware measurements or deployable performance guarantees.
