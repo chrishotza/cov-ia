@@ -1,0 +1,33 @@
+name: Synthetic policy regression tests
+
+on:
+  push:
+    paths:
+      - cov_ia.py
+      - tests/**
+      - .github/workflows/synthetic-policy-tests.yml
+  pull_request:
+    paths:
+      - cov_ia.py
+      - tests/**
+      - .github/workflows/synthetic-policy-tests.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test dependency
+        run: python -m pip install numpy
+      - name: Compile Python source
+        run: python -m py_compile cov_ia.py
+      - name: Run model-policy and reporting regressions
+        run: python -m unittest discover -s tests -v
