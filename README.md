@@ -108,3 +108,35 @@ A real interaction requires the corresponding painted object to change when user
 | Game-state computation | Actual controlled state transition and rules (not present in probe) |
 
 SVG displayed as an image may animate but be non-interactive according to browser secure static image document mode. This is intentionally a behavioral test, not a claim that SVG can be an embedded game.
+
+---
+
+## F · Keyboard accessibility and document-native editing
+
+**Goal:** determine whether GitHub preserves native `accesskey`, `tabindex`, `contenteditable`, and `draggable` attributes in an ordinary README. These are not scripts, but the sanitizer may remove them.
+
+<details>
+<summary accesskey="g" tabindex="0">ACCESSKEY_G · ALT+SHIFT+G on Chrome/Windows</summary>
+
+**ACCESSKEY_G_OPENED**. Verify whether the keyboard shortcut actually toggled this panel without a mouse click; mere disclosure ability is a different test.
+
+</details>
+
+<details>
+<summary tabindex="0">TAB_TO_SUMMARY · then press SPACE or ENTER</summary>
+
+**KEYBOARD_SUMMARY_TOGGLED**. Standard native keyboard accessibility, not a WASD loop.
+
+</details>
+
+**Contenteditable experiment:**
+
+<p contenteditable="true" spellcheck="false">EDITABLE_TEXT_START: CAN YOU TYPE HERE?</p>
+
+**Native draggable experiment:** <span draggable="true">DRAGGABLE_TOKEN</span>
+
+### accesskey-target
+
+An ordinary heading anchor is the fallback. If pressing Alt+Shift+G does nothing, this section won't help create keyboard game controls.
+
+**Security boundary:** all tests remain on a separately rendered public experiment branch, and do not target or circumvent site scripts.
