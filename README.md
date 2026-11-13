@@ -24,7 +24,7 @@ python -m pip install numpy
 python cov_ia.py
 ```
 
-The program runs a baseline and four modes and prints a comparison. It samples randomness without a fixed seed; numeric outputs can vary between runs. It does not currently contain a demonstrated end-to-end Ollama inference benchmark.
+The program runs a baseline and four modes and prints a comparison. The command-line comparison samples unseeded synthetic workloads, so numeric outputs can vary. For reproducible unit-level experiments, construct `InferenceSimulator(name, mode, seed=123)`. Each instance uses an independent random generator and rejects non-finite or negative loads. It does not currently contain a demonstrated end-to-end Ollama inference benchmark.
 
 ## Tests and CI / Pruebas y CI
 

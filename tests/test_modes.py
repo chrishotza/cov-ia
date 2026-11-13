@@ -72,5 +72,33 @@ class SyntheticPolicyTests(unittest.TestCase):
                 )
 
 
+    def test_seeded_simulators_are_reproducible_and_do_not_modify_global_rng(self):
+        import random
+
+        random.seed(812)
+        expected = [random.random() for _ in range(3)]
+        random.seed(812)
+        first = random.random()
+
+        a = cov_ia.InferenceSimulator("A", seed=117)
+        b = cov_ia.InferenceSimulator("B", seed=117)
+        for load in (0.2, 0.7, 1.3):
+            self.assertEqual(a.step(load, -999), b.step(load, -999))
+
+        actual = [first, random.random(), random.random()]
+        self.assertEqual(actual, expected)
+
+    def test_invalid_load_and_separatrix_distance_are_rejected(self):
+        runner = cov_ia.InferenceSimulator("input-check")
+        for invalid in (-0.1, float("nan"), float("inf"), -float("inf")):
+            with self.subTest(load=invalid):
+                with self.assertRaisesRegex(ValueError, "load must"):
+                    runner.step(invalid, 0)
+        for invalid in (float("nan"), float("inf")):
+            with self.subTest(distance=invalid):
+                with self.assertRaisesRegex(ValueError, "dist_to_sep must"):
+                    runner.step(0.5, invalid)
+
+
 if __name__ == "__main__":
     unittest.main()

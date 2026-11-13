@@ -5,6 +5,7 @@ Simulador de perfiles sintéticos; no mide hardware real ni ejecuta Ollama
 
 import numpy as np
 import random
+import math
 import time
 import subprocess
 import json
@@ -136,10 +137,11 @@ class RG_Core:
 # SIMULADOR CON MODOS CORRECTOS
 # ============================================================
 class InferenceSimulator:
-    def __init__(self, name: str, mode: COVMode = COVMode.BALANCED):
+    def __init__(self, name: str, mode: COVMode = COVMode.BALANCED, seed: Optional[int] = None):
         self.name = name
         self.mode = mode
         self.config = MODE_CONFIGS[mode]
+        self._rng = random.Random(seed)
         
         self.model_sizes = {
             'tiny':   {'latency_ms': 8,   'accuracy': 0.92, 'cost': 1},
@@ -270,6 +272,10 @@ class InferenceSimulator:
         return "⏸️ IDLE"
     
     def step(self, load: float, dist_to_sep: float) -> Dict:
+        if not math.isfinite(load) or load < 0:
+            raise ValueError("load must be a finite nonnegative number")
+        if not math.isfinite(dist_to_sep):
+            raise ValueError("dist_to_sep must be finite")
         if dist_to_sep != -999:
             action = self.apply_cov_action(dist_to_sep)
         else:
@@ -281,7 +287,7 @@ class InferenceSimulator:
             
         total_latency = 0
         for _ in range(n_queries):
-            complexity = random.uniform(0.3, 1.0)
+            complexity = self._rng.uniform(0.3, 1.0)
             result = self.infer(complexity)
             total_latency += result['latency_ms']
         
