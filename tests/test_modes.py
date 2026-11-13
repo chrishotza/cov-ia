@@ -127,5 +127,61 @@ class SyntheticPolicyTests(unittest.TestCase):
                     runner.step(0.5, invalid)
 
 
+    def test_emergency_downshifts_only_to_models_allowed_by_mode(self):
+        cases = {
+            cov_ia.COVMode.PRECISION: ["medium", "medium"],
+            cov_ia.COVMode.BALANCED: ["medium", "small"],
+            cov_ia.COVMode.PERFORMANCE: ["medium", "small"],
+            cov_ia.COVMode.ULTRA: ["tiny", "tiny"],
+        }
+        for mode, expected in cases.items():
+            with self.subTest(mode=mode.value):
+                runner = cov_ia.InferenceSimulator("downshift", mode=mode, seed=7)
+                for target in expected:
+                    before = (runner.current_model, runner.precision)
+                    result = runner.step(0.2, 1.0)
+                    self.assertEqual(result["model"], target)
+                    self.assertIn(result["model"], runner.get_available_models())
+                    self.assertIn(result["precision"], runner.get_available_precisions())
+                    if "EMERGENCY" in result["action"]:
+                        self.assertNotEqual(
+                            (result["model"], result["precision"]), before,
+                            "Emergency action must represent an actual transition",
+                        )
+
+    def test_warning_never_upgrades_int8_precision_under_stress(self):
+        runner = cov_ia.InferenceSimulator("ultra", mode=cov_ia.COVMode.ULTRA)
+        self.assertEqual(runner.precision, "int8")
+        result = runner.step(0.3, 0.005)
+        self.assertEqual(result["precision"], "int8")
+        self.assertNotIn("ADJUST", result["action"])
+
+    def test_gradual_upgrade_uses_next_allowed_model_and_precision(self):
+        runner = cov_ia.InferenceSimulator("performance", mode=cov_ia.COVMode.PERFORMANCE)
+        runner.current_model = "tiny"
+        runner.precision = "fp32"
+        result = runner.step(0.2, -1.0)
+        self.assertEqual(result["model"], "small")
+        self.assertIn("UPGRADE", result["action"])
+
+        ultra = cov_ia.InferenceSimulator("ultra", mode=cov_ia.COVMode.ULTRA)
+        ultra.current_model = "tiny"
+        first = ultra.step(0.2, -1.0)
+        self.assertEqual((first["model"], first["precision"]), ("tiny", "fp16"))
+        self.assertIn("UPGRADE", first["action"])
+
+    def test_stress_and_recovery_never_leave_mode_permissions(self):
+        distances = (1.0, 1.0, 0.04, 0.005, -0.03, -1.0, -1.0, -1.0)
+        for mode in cov_ia.COVMode:
+            with self.subTest(mode=mode.value):
+                runner = cov_ia.InferenceSimulator("sweep", mode=mode, seed=31)
+                for distance in distances * 3:
+                    result = runner.step(0.5, distance)
+                    self.assertIn(result["model"], runner.get_available_models())
+                    self.assertIn(result["precision"], runner.get_available_precisions())
+                    self.assertTrue(math.isfinite(result["latency"]))
+
+
+
 if __name__ == "__main__":
     unittest.main()
