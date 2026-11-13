@@ -24,7 +24,7 @@ python -m pip install numpy
 python cov_ia.py
 ```
 
-The program runs a baseline and four modes and prints a comparison. The command-line comparison samples unseeded synthetic workloads, so numeric outputs can vary. For reproducible unit-level experiments, construct `InferenceSimulator(name, mode, seed=123)`. Each instance uses an independent random generator and rejects non-finite or negative loads. It does not currently contain a demonstrated end-to-end Ollama inference benchmark.
+The program runs a baseline and four modes and prints a comparison. The command-line comparison samples unseeded synthetic workloads, so numeric outputs can vary. For reproducible unit-level experiments, construct `InferenceSimulator(name, mode, seed=123)`. Each instance uses an independent random generator and rejects invalid loads outside **[0, 2]**, including nonfinite values. The bound matches the current synthetic workload generator and prevents uncontrolled per-step query loops; it is **not a measured production-capacity limit**. `run_mode_simulation` also bounds duration to **0.1–600 simulated seconds** and rejects invalid inputs. It does not currently contain a demonstrated end-to-end Ollama inference benchmark.
 
 ## Tests and CI / Pruebas y CI
 
