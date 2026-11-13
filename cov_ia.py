@@ -208,69 +208,67 @@ class InferenceSimulator:
         }
     
     def apply_cov_action(self, dist_to_sep: float):
-        """COV con acción según modo"""
-        
+        """Switch between *allowed* synthetic model/precision states only."""
+
         self.cooldown = max(0, self.cooldown - 1)
         cfg = self.config
         available_models = self.get_available_models()
         available_precisions = self.get_available_precisions()
-        
         model_rank = {'tiny': 0, 'small': 1, 'medium': 2, 'large': 3}
+        precision_rank = {'int8': 0, 'fp16': 1, 'fp32': 2}
         current_rank = model_rank[self.current_model]
-        
-        # Colapso inminente -> bajar al mínimo
+
+        lower = [m for m in available_models if model_rank[m] < current_rank]
+        next_lower = max(lower, key=model_rank.get) if lower else None
+
+        # Emergency: take the next *permitted* smaller model, not simply rank - 1.
+        # A transition must really occur before reporting an emergency action.
         if dist_to_sep > cfg.downgrade_threshold * 1.5:
-            if current_rank > 0 and len(available_models) > 1:
-                # Bajar un nivel
-                new_rank = max(0, current_rank - 1)
-                for m, r in model_rank.items():
-                    if r == new_rank and m in available_models:
-                        self.current_model = m
-                        break
-                # También bajar precisión si es posible
-                if 'int8' in available_precisions:
-                    self.precision = 'int8'
+            changed = False
+            if next_lower is not None:
+                self.current_model = next_lower
+                changed = True
+            if 'int8' in available_precisions and self.precision != 'int8':
+                self.precision = 'int8'
+                changed = True
+            if changed:
                 return f"💀 EMERGENCY: {self.current_model}+{self.precision}"
-        
-        # Zona crítica -> reducir
+
         elif dist_to_sep > cfg.downgrade_threshold:
             if self.precision != 'int8' and 'int8' in available_precisions:
                 self.precision = 'int8'
                 return f"🔴 CRITICAL: {self.precision}"
-            elif current_rank > 0:
-                new_rank = max(0, current_rank - 1)
-                for m, r in model_rank.items():
-                    if r == new_rank and m in available_models:
-                        self.current_model = m
-                        break
+            if next_lower is not None:
+                self.current_model = next_lower
                 return f"🔴 CRITICAL: {self.current_model}"
-        
-        # Zona de advertencia
+
         elif dist_to_sep > 0:
-            if self.precision != 'fp16' and 'fp16' in available_precisions:
+            # Never increase latency by changing int8 back to fp16 under stress.
+            if self.precision == 'fp32' and 'fp16' in available_precisions:
                 self.precision = 'fp16'
                 return f"⚠️ ADJUST: {self.precision}"
-        
-        # Zona estable -> mantener
+
         elif dist_to_sep > cfg.upgrade_threshold:
             return "✅ STABLE"
-        
-        # Zona muy estable -> mejorar calidad
-        else:
-            if self.cooldown == 0:
-                # Mejorar precisión primero
-                if self.precision != 'fp32' and 'fp32' in available_precisions:
-                    self.precision = 'fp32'
-                    self.cooldown = cfg.upgrade_cooldown
-                    return f"⬆️ UPGRADE: {self.precision}"
-                # Mejorar modelo
-                elif current_rank < 3 and 'large' in available_models:
-                    self.current_model = 'large'
-                    self.cooldown = cfg.upgrade_cooldown
-                    return f"⬆️ UPGRADE: {self.current_model}"
-        
+
+        elif self.cooldown == 0:
+            # Gradual, permitted recovery: precision first, then one model step.
+            higher_precisions = [
+                p for p in available_precisions
+                if precision_rank[p] > precision_rank[self.precision]
+            ]
+            if higher_precisions:
+                self.precision = min(higher_precisions, key=precision_rank.get)
+                self.cooldown = cfg.upgrade_cooldown
+                return f"⬆️ UPGRADE: {self.precision}"
+            higher_models = [m for m in available_models if model_rank[m] > current_rank]
+            if higher_models:
+                self.current_model = min(higher_models, key=model_rank.get)
+                self.cooldown = cfg.upgrade_cooldown
+                return f"⬆️ UPGRADE: {self.current_model}"
+
         return "⏸️ IDLE"
-    
+
     def step(self, load: float, dist_to_sep: float) -> Dict:
         # The synthetic workload generator is bounded to [0, 2]. Do not turn
         # untrusted larger values into unbounded per-request Python loops.
