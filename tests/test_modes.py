@@ -88,6 +88,33 @@ class SyntheticPolicyTests(unittest.TestCase):
         actual = [first, random.random(), random.random()]
         self.assertEqual(actual, expected)
 
+    def test_load_must_be_bounded_before_query_loop(self):
+        runner = cov_ia.InferenceSimulator("bounded", seed=9)
+        before = (runner.current_model, runner.precision, runner.cooldown, len(runner.history))
+        for invalid in (2.01, 1e12, 1e308, True, "untrusted"):
+            with self.subTest(load=invalid):
+                with self.assertRaises(ValueError):
+                    runner.step(invalid, 0.8)
+                self.assertEqual(
+                    (runner.current_model, runner.precision, runner.cooldown, len(runner.history)),
+                    before
+                )
+        accepted = runner.step(2.0, -999)
+        self.assertEqual(accepted["load"], 2.0)
+        self.assertEqual(len(runner.history), 1)
+
+    def test_simulation_duration_invalid_values_fail_before_loop(self):
+        for invalid in (0, 0.01, -1, 601, float("inf"), float("nan"), True, "60"):
+            with self.subTest(duration=invalid):
+                with self.assertRaises(ValueError):
+                    cov_ia.run_mode_simulation(cov_ia.COVMode.BALANCED, invalid)
+
+    def test_short_synthetic_duration_produces_finite_results(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            result = cov_ia.run_mode_simulation(cov_ia.COVMode.BALANCED, 0.2)
+        self.assertEqual(result["total_steps"], 2)
+        self.assertTrue(math.isfinite(result["avg_latency"]))
+
     def test_invalid_load_and_separatrix_distance_are_rejected(self):
         runner = cov_ia.InferenceSimulator("input-check")
         for invalid in (-0.1, float("nan"), float("inf"), -float("inf")):
