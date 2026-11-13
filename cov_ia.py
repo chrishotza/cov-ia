@@ -272,8 +272,17 @@ class InferenceSimulator:
         return "⏸️ IDLE"
     
     def step(self, load: float, dist_to_sep: float) -> Dict:
-        if not math.isfinite(load) or load < 0:
-            raise ValueError("load must be a finite nonnegative number")
+        # The synthetic workload generator is bounded to [0, 2]. Do not turn
+        # untrusted larger values into unbounded per-request Python loops.
+        if type(load) is bool or type(dist_to_sep) is bool:
+            raise ValueError("load and dist_to_sep must be numeric, not boolean")
+        try:
+            load = float(load)
+            dist_to_sep = float(dist_to_sep)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ValueError("load and dist_to_sep must be numeric and finite") from exc
+        if not math.isfinite(load) or not 0 <= load <= 2.0:
+            raise ValueError("load must be a finite number in [0, 2]")
         if not math.isfinite(dist_to_sep):
             raise ValueError("dist_to_sep must be finite")
         if dist_to_sep != -999:
@@ -329,6 +338,12 @@ def generate_realistic_load(t: float) -> float:
 # SIMULACIÓN
 # ============================================================
 def run_mode_simulation(mode: COVMode, duration_seconds: int = 60) -> Dict:
+    if type(duration_seconds) not in (int, float) or not math.isfinite(duration_seconds):
+        raise ValueError("duration_seconds must be finite and in [0.1, 600]")
+    if not 0.1 <= duration_seconds <= 600:
+        raise ValueError("duration_seconds must be finite and in [0.1, 600]")
+    if not isinstance(mode, COVMode):
+        raise ValueError("mode must be a COVMode")
     print(f"   Simulando {mode.value}...", end=" ", flush=True)
     
     rg = RG_Core()
