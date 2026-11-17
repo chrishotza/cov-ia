@@ -452,9 +452,9 @@ def main():
         acc_marker = "✅" if acc_diff >= -0.02 else "⚠️"
         
         print(f"{r['mode']:<12} {r['avg_latency']:.0f}ms      "
-              f"-{lat_improve:.0f}%        "
+              f"{lat_improve:+.0f}%        "
               f"{r['avg_accuracy']:.4f} {acc_marker}   "
-              f"-{cost_save:.0f}%")
+              f"{cost_save:+.0f}%")
         
         # Mostrar distribución de modelos
         total = r['total_steps']
